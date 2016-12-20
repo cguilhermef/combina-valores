@@ -1,0 +1,66 @@
+<div class="container">
+  <div class="col-xs-12 col-md-4">
+    <div class="panel">
+      <div class="panel-header">
+        <h4 class="panel-title">Lista de cheques</h4>
+      </div>
+      <div class="panel-body">
+        <div class="row" ng-repeat="cheque in cheques track by $index">
+          <div class="form-group">
+            <div class="input-group">
+              <input 
+                type="text" 
+                ng-model="cheque" 
+                ui-number-mask
+                ui-hide-group-sep
+                class="form-control">
+              <span class="input-group-btn">
+                <button class="btn btn-danger">
+                  <span class="fa fa-remove"></span>
+                </button>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group">
+            <div class="input-group">
+              <input 
+                type="text" 
+                id="novo-cheque"
+                ui-number-mask
+                ui-hide-group-sep
+                ng-model="model.cheque" 
+                class="form-control">
+              <span class="input-group-btn">
+                <button 
+                  ng-click="addCheque()"
+                  class="btn btn-success">
+                  <span class="fa fa-plus"></span>
+                </button>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-12 col-md-4">
+    <div class="panel">
+      <div class="panel-header">
+        <h4 class="panel-title">Resultados</h4>
+      </div>
+      <div class="panel-body">
+        <dl>
+          <dt>Menor troco, usar:</dt>
+          <dd>{{ (menorTroco || 'Não calculado') }}</dd>
+          <dt>Menor valor em dinheiro, usar:</dt>
+          <dd>{{ (menorTroco || 'Não calculado') }}</dd>
+        </dl>
+        <button class="btn btn-primary">
+          <span class="fa fa-refresh"></span> Executar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
