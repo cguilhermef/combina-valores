@@ -34,14 +34,24 @@ angular.module('chequesApp')
       $scope.model = {
         cheque: null
       };
+      $scope.clearResults();
+    };
+
+    $scope.removeAllCheques = function() {
+      if (window.confirm("Apagar todos os cheques digitados. Deseja continuar?")) {
+        $scope.clearResults();
+        $scope.cheques = [];
+      }
     };
 
     $scope.clearResults = function() {
       $scope.troco = 0;
+      $scope.melhorCombinacaoComTroco = [];
       $scope.menorDiferenca = 0;
       $scope.diferencaMaiorCombinacao = 0;
       $scope.maiorCombinacaoComDiferenca = [];
       $scope.menorCombinacaoComDiferenca = [];
+      $scope.melhorCombinacaoComDiferenca = [];
     };
 
     $scope.addCheque = function() {
@@ -50,10 +60,11 @@ angular.module('chequesApp')
       $('#novo-cheque').focus();
     };
     $scope.removeCheque = function($index) {
-      $scope.cheques = _.omit($scope.cheques, $index);
+      $scope.cheques = _.without($scope.cheques, $scope.cheques[$index]);
     }
 
     $scope.execute = function() {
+      $scope.clearResults();
       var valor = $scope.valor;
       var i = 0;
       var j = 0;
@@ -70,24 +81,27 @@ angular.module('chequesApp')
       for(i = 0; i < ln; i++ ) {
         matriz.push([]);
         for(j = 0; j < ln; j++) {
-          matriz[i][j] = asc[(i+j)%ln];
-          somaTmp = _.sum(matriz[i]);
-          if (somaTmp <= valor && somaTmp > valorA) {
-            valorA = somaTmp;
-            combinacaoBaixo = [].concat(matriz[i]);
-            /**
-             * o menor numero esta bugando, não apresenta o melhor resultado.
-             */
-            if (matriz[i].length < menorNumeroChequesComDiferenca.length) {
-              menorNumeroChequesComDiferenca = [].concat(matriz[i]);
+          if ( asc[(i+j)%ln] > 0) {
+
+            matriz[i][j] = asc[(i+j)%ln];
+            somaTmp = _.sum(matriz[i]);
+            if (somaTmp <= valor && somaTmp > valorA) {
+              valorA = somaTmp;
+              combinacaoBaixo = [].concat(matriz[i]);
+              /**
+               * o menor numero esta bugando, não apresenta o melhor resultado.
+               */
+              if (matriz[i].length < menorNumeroChequesComDiferenca.length) {
+                menorNumeroChequesComDiferenca = [].concat(matriz[i]);
+              }
+              if (matriz[i].length > maiorNumeroChequesComDiferenca.length) {
+                maiorNumeroChequesComDiferenca = [].concat(matriz[i]);
+              }
             }
-            if (matriz[i].length > maiorNumeroChequesComDiferenca.length) {
-              maiorNumeroChequesComDiferenca = [].concat(matriz[i]);
+            if (somaTmp > valor && ((somaTmp - valor) > 0) && somaTmp - valor < valorB && (somaTmp - valor < valor)) {
+              valorB = somaTmp-valor;
+              combinacaoAcima = [].concat(matriz[i]);
             }
-          }
-          if (somaTmp > valor && ((somaTmp - valor) > 0) && somaTmp - valor < valorB && (somaTmp - valor < valor)) {
-            valorB = somaTmp-valor;
-            combinacaoAcima = [].concat(matriz[i]);
           }
         }
       }
@@ -108,6 +122,8 @@ angular.module('chequesApp')
     $scope.init();
 
     $scope.$watch('cheques', function(nV, oV){
-
+      if (nV) {
+        $scope.clearResults();
+      }
     }, true);
   });
