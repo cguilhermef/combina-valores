@@ -1,65 +1,133 @@
 <div class="container">
   <div class="col-xs-12 col-md-4">
-    <div class="panel">
-      <div class="panel-header">
+    <div class="panel panel-default">
+      <div class="panel-heading">
         <h4 class="panel-title">Lista de cheques</h4>
       </div>
       <div class="panel-body">
-        <div class="row" ng-repeat="cheque in cheques track by $index">
-          <div class="form-group">
+        <div ng-repeat="cheque in cheques track by $index">
+          <div class="form-group" style="margin-bottom: 5px">
             <div class="input-group">
               <input 
                 type="text" 
                 ng-model="cheque" 
                 ui-number-mask
                 ui-hide-group-sep
-                class="form-control">
+                class="form-control form-control-sm">
               <span class="input-group-btn">
-                <button class="btn btn-danger">
+                <button 
+                  ng-click="removeCheque($index)"
+                  class="btn btn-danger">
                   <span class="fa fa-remove"></span>
                 </button>
               </span>
             </div>
           </div>
         </div>
-        <div class="row">
-          <div class="form-group">
-            <div class="input-group">
-              <input 
-                type="text" 
-                id="novo-cheque"
-                ui-number-mask
-                ui-hide-group-sep
-                ng-model="model.cheque" 
-                class="form-control">
-              <span class="input-group-btn">
-                <button 
-                  ng-click="addCheque()"
-                  class="btn btn-success">
-                  <span class="fa fa-plus"></span>
-                </button>
-              </span>
-            </div>
+        <div class="form-group">
+          <div class="input-group">
+            <input 
+              type="text" 
+              id="novo-cheque"
+              ui-number-mask
+              ui-hide-group-sep
+              ng-model="model.cheque" 
+              class="form-control">
+            <span class="input-group-btn">
+              <button 
+                ng-click="addCheque()"
+                class="btn btn-success">
+                <span class="fa fa-plus"></span>
+              </button>
+            </span>
           </div>
         </div>
       </div>
     </div>
   </div>
   <div class="col-xs-12 col-md-4">
-    <div class="panel">
-      <div class="panel-header">
+    <div class="panel panel-default">
+      <div class="panel-heading">
         <h4 class="panel-title">Resultados</h4>
       </div>
       <div class="panel-body">
-        <dl>
-          <dt>Menor troco, usar:</dt>
-          <dd>{{ (menorTroco || 'Não calculado') }}</dd>
-          <dt>Menor valor em dinheiro, usar:</dt>
-          <dd>{{ (menorTroco || 'Não calculado') }}</dd>
-        </dl>
-        <button class="btn btn-primary">
-          <span class="fa fa-refresh"></span> Executar
-        </button>
+        <div class="form-group">
+          <label for="" class="form-control-label">Valor a ser pago:</label>
+          <div class="input-group">
+            <span class="input-group-addon">R$</span>
+            <input 
+              ui-number-mask
+              ui-hide-group-sep
+              type="text" 
+              class="form-control" 
+              ng-model="valor">
+            <span class="input-group-btn">
+              <button 
+                ng-click="execute()"
+                class="btn btn-primary">
+                <span class="fa fa-refresh"></span> Executar
+              </button>
+            </span>
+          </div>
+        </div>
+        <div ng-show="melhorCombinacaoComTroco.length > 0">
+          <hr>
+          <strong>Menor troco: </strong> {{ ( troco || 0 ) | currency:"R$ " }}
+          <div>
+            <strong>Cheques: </strong>
+            <span 
+              ng-repeat="cheque in melhorCombinacaoComTroco track by $index">
+              <span ng-if="$index > 0" style="margin-left: 4px">+</span>
+              <span class="label label-primary">
+                {{ cheque | currency:"R$ " }}
+              </span>
+            </span>
+          </div>
+        </div>
+        <div ng-show="melhorCombinacaoComDiferenca.length > 0">
+          <hr>
+          <strong>Menor diferenca: </strong> {{ ( menorDiferenca || 0 ) | currency:"R$ " }}
+          <div>
+            <strong>Cheques: </strong>
+            <span 
+              ng-repeat="cheque in melhorCombinacaoComDiferenca track by $index">
+              <span ng-if="$index > 0" style="margin-left: 4px">+</span>
+              <span class="label label-primary">
+                {{ cheque | currency:"R$ " }}
+              </span>
+            </span>
+          </div>
+        </div>
+        <div ng-show="maiorCombinacaoComDiferenca.length > 0">
+          <hr>
+          <p>Usando o maior número de cheques, com a menor diferença:</p>
+          <strong>Diferenca: </strong> {{ ( diferencaMaiorCombinacao || 0 ) | currency:"R$ " }}
+          <div>
+            <strong>Cheques: </strong>
+            <span 
+              ng-repeat="cheque in maiorCombinacaoComDiferenca track by $index">
+              <span ng-if="$index > 0" style="margin-left: 4px">+</span>
+              <span class="label label-primary">
+                {{ cheque | currency:"R$ " }}
+              </span>
+            </span>
+          </div>
+        </div>
+        <!--<div ng-show="menorCombinacaoComDiferenca.length > 0">
+          <hr>
+          <p>Usando o menor número de cheques, com a menor diferença:</p>
+          <strong>Diferenca: </strong> {{ ( diferencaMenorCombinacao || 0 ) | currency:"R$ " }}
+          <div>
+            <strong>Cheques: </strong>
+            <span 
+              ng-repeat="cheque in menorCombinacaoComDiferenca track by $index">
+              <span ng-if="$index > 0" style="margin-left: 4px">+</span>
+              <span class="label label-primary">
+                {{ cheque | currency:"R$ " }}
+              </span>
+            </span>
+          </div>
+        </div>-->
       </div>
     </div>
   </div>

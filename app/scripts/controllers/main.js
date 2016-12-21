@@ -34,14 +34,80 @@ angular.module('chequesApp')
       $scope.model = {
         cheque: null
       };
-      $scope.addCheque = function() {
-        $scope.cheques.push(Number($scope.model.cheque));
-        $scope.model.cheque = null;
-        $('#novo-cheque').focus();
-      };
-
-
     };
 
+    $scope.clearResults = function() {
+      $scope.troco = 0;
+      $scope.menorDiferenca = 0;
+      $scope.diferencaMaiorCombinacao = 0;
+      $scope.maiorCombinacaoComDiferenca = [];
+      $scope.menorCombinacaoComDiferenca = [];
+    };
+
+    $scope.addCheque = function() {
+      $scope.cheques.push(Number($scope.model.cheque));
+      $scope.model.cheque = null;
+      $('#novo-cheque').focus();
+    };
+    $scope.removeCheque = function($index) {
+      $scope.cheques = _.omit($scope.cheques, $index);
+    }
+
+    $scope.execute = function() {
+      var valor = $scope.valor;
+      var i = 0;
+      var j = 0;
+      var ln = $scope.cheques.length;
+      var asc = _.sortBy($scope.cheques);
+      var matriz = [];
+      var valorA = 0;
+      var valorB = _.sum(asc)-valor;
+      var somaTmp = 0;
+      var combinacaoBaixo = null;
+      var combinacaoAcima = null;
+      var menorNumeroChequesComDiferenca = _.times(ln, _.constant(0));
+      var maiorNumeroChequesComDiferenca = [];
+      for(i = 0; i < ln; i++ ) {
+        matriz.push([]);
+        for(j = 0; j < ln; j++) {
+          matriz[i][j] = asc[(i+j)%ln];
+          somaTmp = _.sum(matriz[i]);
+          if (somaTmp <= valor && somaTmp > valorA) {
+            valorA = somaTmp;
+            combinacaoBaixo = [].concat(matriz[i]);
+            /**
+             * o menor numero esta bugando, não apresenta o melhor resultado.
+             */
+            if (matriz[i].length < menorNumeroChequesComDiferenca.length) {
+              menorNumeroChequesComDiferenca = [].concat(matriz[i]);
+            }
+            if (matriz[i].length > maiorNumeroChequesComDiferenca.length) {
+              maiorNumeroChequesComDiferenca = [].concat(matriz[i]);
+            }
+          }
+          if (somaTmp > valor && ((somaTmp - valor) > 0) && somaTmp - valor < valorB && (somaTmp - valor < valor)) {
+            valorB = somaTmp-valor;
+            combinacaoAcima = [].concat(matriz[i]);
+          }
+        }
+      }
+      $scope.melhorCombinacaoComTroco = combinacaoAcima;
+      $scope.troco = valorB;
+      $scope.melhorCombinacaoComDiferenca = combinacaoBaixo;
+      $scope.menorDiferenca = valor - valorA;
+      $scope.maiorCombinacaoComDiferenca = maiorNumeroChequesComDiferenca;
+      $scope.diferencaMaiorCombinacao = valor - _.sum(maiorNumeroChequesComDiferenca);
+      $scope.menorCombinacaoComDiferenca = menorNumeroChequesComDiferenca;
+      $scope.diferencaMenorCombinacao = valor - _.sum(menorNumeroChequesComDiferenca);
+      // console.log('com menos cheques:', valorA, menorNumeroChequesComDiferenca);
+      // console.log('com mais cheques:', valorA, maiorNumeroChequesComDiferenca);
+      // console.log('Melhor combinação sem troco:', valorA, combinacaoBaixo);
+      // console.log('Menor troco:', valorB, 'usando o(s) cheque(s):',combinacaoAcima);
+    }
+
     $scope.init();
+
+    $scope.$watch('cheques', function(nV, oV){
+
+    }, true);
   });
