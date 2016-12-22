@@ -2,14 +2,14 @@
 
 /**
  * @ngdoc overview
- * @name chequesApp
+ * @name combinaValores
  * @description
- * # chequesApp
+ * # combinaValores
  *
  * Main module of the application.
  */
 angular
-  .module('chequesApp', [
+  .module('combinaValores', [
     'ngAnimate',
     'ngCookies',
     'ngResource',

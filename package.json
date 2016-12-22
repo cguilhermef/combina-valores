@@ -1,6 +1,6 @@
 {
-  "name": "cheques",
-  "version": "0.1.1",
+  "name": "combinaValores",
+  "version": "1.0.0",
   "private": true,
   "devDependencies": {
     "autoprefixer-core": "^5.2.1",

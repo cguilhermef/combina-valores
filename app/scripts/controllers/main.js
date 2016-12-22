@@ -2,68 +2,84 @@
 
 /**
  * @ngdoc function
- * @name chequesApp.controller:MainCtrl
+ * @name combinaValores.controller:MainCtrl
  * @description
  * # MainCtrl
- * Controller of the chequesApp
+ * Controller of the combinaValores
  */
-angular.module('chequesApp')
+angular.module('combinaValores')
   .controller('MainCtrl', function ($scope) {
     $scope.init = function() {
-      $scope.cheques = [687.34, 648, 440, 408.58, 200, 581];
+      $scope.running = false;
+      $scope.valores = [];
       $scope.model = {
         cheque: null
       };
       $scope.clearResults();
     };
 
-    $scope.removeAllCheques = function() {
-      if (window.confirm("Apagar todos os cheques digitados. Deseja continuar?")) {
+    $scope.removeAllValores = function() {
+      if (window.confirm("Apagar todos os valores digitados. Deseja continuar?")) {
         $scope.clearResults();
-        $scope.cheques = [];
+        $scope.valores = [];
       }
     };
 
     $scope.clearResults = function() {
       $scope.menorTroco = _.sum($scope.valores) - $scope.valor;
-      $scope.menorTrocoComMaisCheques = _.sum($scope.valores) - $scope.valor;
-      $scope.menorTrocoComMenosCheques = _.sum($scope.valores) - $scope.valor;
+      $scope.menorTrocoComMaisValores = _.sum($scope.valores) - $scope.valor;
+      $scope.menorTrocoComMenosValores = _.sum($scope.valores) - $scope.valor;
 
       $scope.menorDiferenca = $scope.valor;
-      $scope.menorDiferencaMaisCheques = $scope.valor;
-      $scope.menorDiferencaMenosCheques = $scope.valor;
+      $scope.menorDiferencaMaisValores = $scope.valor;
+      $scope.menorDiferencaMenosValores = $scope.valor;
 
       $scope.combinacaoMenorTroco = [];
-      $scope.combinacaoMenorTrocoMaisCheques = [];
-      $scope.combinacaoMenorTrocoMenosCheques = [];
+      $scope.combinacaoMenorTrocoMaisValores = [];
+      $scope.combinacaoMenorTrocoMenosValores = [];
       $scope.combinacaoMenorDiferenca = [];
-      $scope.combinacaoMenorDiferencaMaisCheques = [];
-      $scope.combinacaoMenorDiferencaMenosCheques = [];
+      $scope.combinacaoMenorDiferencaMaisValores = [];
+      $scope.combinacaoMenorDiferencaMenosValores = [];
     };
 
-    $scope.addCheque = function() {
-      $scope.cheques.push(Number($scope.model.cheque));
-      $scope.model.cheque = null;
-      $('#novo-cheque').focus();
+    $scope.addValor = function() {
+      $scope.valores.push(Number($scope.model.valor));
+      $scope.model.valor = null;
+      $('#novo-valor').focus();
     };
-    $scope.removeCheque = function($index) {
-      $scope.cheques = _.without($scope.cheques, $scope.cheques[$index]);
-    }
+    $scope.removeValor = function($index) {
+      $scope.valores = _.without($scope.valores, $scope.valores[$index]);
+    };
 
     $scope.execute = function() {
+      $scope.running = true;
       $scope.clearResults();
+      var valores = $scope.valores;
       var ln = $scope.valores.length;
-      var cp = Math.pow(2, ln);
+      $scope.cp = Math.pow(2, ln);
       var tmpVetor = [];
       var tmpValoresCombinados = [];
-      var tmpNum = null;
       var i = 1;
       var c = 0;
-      var valor = 0;
+      var valor = $scope.valor;
       var tmpSoma = 0;
-      var menorDiferenca = valor;
+      $scope.menorTroco = _.sum(valores) - valor;
+      $scope.menorTrocoComMaisValores = _.sum(valores) - valor;
+      $scope.menorTrocoComMenosValores = _.sum(valores) - valor;
 
-      while (i < cp) {
+      $scope.menorDiferenca = valor;
+      $scope.menorDiferencaMaisValores = valor;
+      $scope.menorDiferencaMenosValores = valor;
+
+      $scope.combinacaoMenorTroco = [];
+      $scope.combinacaoMenorTrocoMaisValores = [];
+      $scope.combinacaoMenorTrocoMenosValores = _.times(ln, _.constant(0));
+      $scope.combinacaoMenorDiferenca = [];
+      $scope.combinacaoMenorDiferencaMaisValores = [];
+      $scope.combinacaoMenorDiferencaMenosValores = _.times(ln, _.constant(0));
+
+
+      while (i < $scope.cp) {
         tmpValoresCombinados = [];
         tmpVetor = _.map(_.padStart(Number(i).toString(2), ln, '0').split(''), Number);
         
@@ -74,37 +90,55 @@ angular.module('chequesApp')
         }
         tmpSoma = _.sum(tmpValoresCombinados);
         if (tmpSoma <= valor ){
-          if (valor - tmpSoma <= menorDiferenca) {
-            menorDiferenca = valor - tmpSoma;
-            combinacaoMenorDiferenca = [].concat(tmpValoresCombinados);
+          if ((valor - tmpSoma) <= $scope.menorDiferenca) {
+            $scope.menorDiferenca = valor - tmpSoma;
+            $scope.combinacaoMenorDiferenca = [].concat(tmpValoresCombinados);
+            if (tmpValoresCombinados.length < $scope.combinacaoMenorDiferenca.length ) {
+              $scope.menorDiferencaComMenosValores = valor - tmpSoma;
+              $scope.combinacaoMenorDiferencaMenosValores = [].concat(tmpValoresCombinados);
+            }
+            if (tmpValoresCombinados.length > $scope.combinacaoMenorDiferencaMaisValores.length) {
+              $scope.menorDiferencaComMaisValores = valor - tmpSoma;
+              $scope.combinacaoMenorDiferencaMaisValores = [].concat(tmpValoresCombinados);
+            }
           }
         } else {
-          if (tmpSoma - valor < menorTroco) {
-            menorTroco = tmpSoma-valor;
-            combinacaoMenorTroco = [].concat(tmpValoresCombinados);
-            if (tmpValoresCombinados.length < combinacaoMenorDiferencaMenosCheques.length) {
-              menorTrocoComMenosCheques = tmpSoma-valor;
-              combinacaoMenorTrocoMenosCheques = [].concat(tmpValoresCombinados);
+          if ((tmpSoma - valor) < $scope.menorTroco) {
+            $scope.menorTroco = tmpSoma-valor;
+            $scope.combinacaoMenorTroco = [].concat(tmpValoresCombinados);
+            if (tmpValoresCombinados.length < $scope.combinacaoMenorTrocoMenosValores.length) {
+              $scope.menorTrocoComMenosValores = tmpSoma-valor;
+              $scope.combinacaoMenorTrocoMenosValores = [].concat(tmpValoresCombinados);
             }
-            if (tmpValoresCombinados.length > combinacaoMenorDiferencaMaisCheques.length) {
-              menorTrocoComMaisCheques = tmpSoma-valor;
-              combinacaoMenorTrocoMaisCheques = [].concat(tmpValoresCombinados);
+            if (tmpValoresCombinados.length > $scope.combinacaoMenorTrocoMaisValores.length) {
+              $scope.menorTrocoComMaisValores = tmpSoma-valor;
+              $scope.combinacaoMenorTrocoMaisValores = [].concat(tmpValoresCombinados);
             }
           }
         }
         i++;
       }
-
-      console.log('Menor troco: ' + menorTroco, combinacaoMenorTroco);
-      console.log('Menor diferença: ' + menorDiferenca, combinacaoMenorDiferenca);
-
-    }
+      if (_.sum($scope.combinacaoMenorTrocoMenosValores) === 0) {
+         $scope.combinacaoMenorTrocoMenosValores = [];
+      }
+      if (_.sum($scope.combinacaoMenorTrocoMaisValores) === 0) {
+         $scope.combinacaoMenorTrocoMaisValores = [];
+      }
+      if (_.sum($scope.combinacaoMenorDiferencaMenosValores) === 0) {
+         $scope.combinacaoMenorDiferencaMenosValores = [];
+      }
+      if (_.sum($scope.combinacaoMenorDiferencaMaisValores) === 0) {
+         $scope.combinacaoMenorDiferencaMaisValores = [];
+      }
+      $scope.running = false;
+    };
 
     $scope.init();
 
-    $scope.$watch('cheques', function(nV, oV){
+    $scope.$watch('valores', function(nV){
       if (nV) {
         $scope.clearResults();
+        $scope.cp = Math.pow(2, $scope.valores.length);
       }
     }, true);
   });
