@@ -1,4 +1,4 @@
-<div class="container">
+<div class="row">
   <div class="col-xs-12 col-md-4">
     <ul class="list-group">
       <li class="list-group-item">
@@ -17,7 +17,7 @@
         <div class="form-group" style="margin-bottom: 0">
           <div class="input-group">
             <input 
-              type="text" 
+              type="number" 
               id="novo-valor"
               ui-number-mask
               ui-hide-group-sep
@@ -66,7 +66,7 @@
                     <input 
                       ui-number-mask
                       ui-hide-group-sep
-                      type="text" 
+                      type="number" 
                       class="form-control" 
                       ng-model="valor">
                     <span class="input-group-btn">
@@ -76,7 +76,8 @@
                         class="btn btn-primary">
                         <span 
                           ng-class="{'fa-spin': running}"
-                          class="fa fa-refresh"></span> Executar
+                          class="fa fa-refresh"></span> 
+                          <span class="hidden-xs hidden-sm">Executar</span>
                       </button>
                     </span>
                   </div>
