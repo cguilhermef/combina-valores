@@ -66,64 +66,34 @@
             </span>
           </div>
         </div>
-        <div ng-show="melhorCombinacaoComTroco.length > 0">
+        <div ng-show="combinacaoMenorTroco.length > 0">
           <hr>
-          <strong>Menor troco: </strong> {{ ( troco || 0 ) | currency:"R$ " }}
+          <strong>Menor troco: </strong> {{ ( menorTroco || 0 ) | currency:"R$ " }}
           <div>
-            <strong>Cheques: </strong>
+            <strong>Valores: </strong>
             <span 
-              ng-repeat="cheque in melhorCombinacaoComTroco track by $index">
+              ng-repeat="valor in combinacaoMenorTroco track by $index">
               <span ng-if="$index > 0" style="margin-left: 4px">+</span>
               <span class="label label-primary">
-                {{ cheque | currency:"R$ " }}
+                {{ valor | currency:"R$ " }}
               </span>
             </span>
           </div>
         </div>
-        <div ng-show="melhorCombinacaoComDiferenca.length > 0">
+        <div ng-show="combinacaoMenorDiferenca.length > 0">
           <hr>
-          <strong>Menor diferenca: </strong> {{ ( menorDiferenca || 0 ) | currency:"R$ " }}
+          <strong>Menor diferença: </strong> {{ ( menorDiferenca || 0 ) | currency:"R$ " }}
           <div>
-            <strong>Cheques: </strong>
+            <strong>Valores: </strong>
             <span 
-              ng-repeat="cheque in melhorCombinacaoComDiferenca track by $index">
+              ng-repeat="valor in combinacaoMenorDiferenca track by $index">
               <span ng-if="$index > 0" style="margin-left: 4px">+</span>
               <span class="label label-primary">
-                {{ cheque | currency:"R$ " }}
+                {{ valor | currency:"R$ " }}
               </span>
             </span>
           </div>
         </div>
-        <div ng-show="maiorCombinacaoComDiferenca.length > 0">
-          <hr>
-          <p>Usando o maior número de cheques, com a menor diferença:</p>
-          <strong>Diferenca: </strong> {{ ( diferencaMaiorCombinacao || 0 ) | currency:"R$ " }}
-          <div>
-            <strong>Cheques: </strong>
-            <span 
-              ng-repeat="cheque in maiorCombinacaoComDiferenca track by $index">
-              <span ng-if="$index > 0" style="margin-left: 4px">+</span>
-              <span class="label label-primary">
-                {{ cheque | currency:"R$ " }}
-              </span>
-            </span>
-          </div>
-        </div>
-        <!--<div ng-show="menorCombinacaoComDiferenca.length > 0">
-          <hr>
-          <p>Usando o menor número de cheques, com a menor diferença:</p>
-          <strong>Diferenca: </strong> {{ ( diferencaMenorCombinacao || 0 ) | currency:"R$ " }}
-          <div>
-            <strong>Cheques: </strong>
-            <span 
-              ng-repeat="cheque in menorCombinacaoComDiferenca track by $index">
-              <span ng-if="$index > 0" style="margin-left: 4px">+</span>
-              <span class="label label-primary">
-                {{ cheque | currency:"R$ " }}
-              </span>
-            </span>
-          </div>
-        </div>-->
       </div>
     </div>
   </div>
