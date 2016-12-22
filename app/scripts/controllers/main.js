@@ -63,6 +63,9 @@ angular.module('combinaValores')
       var c = 0;
       var valor = $scope.valor;
       var tmpSoma = 0;
+      var tmpDiferenca = 0;
+      var tmpTroco = 0;
+
       $scope.menorTroco = _.sum(valores) - valor;
       $scope.menorTrocoComMaisValores = _.sum(valores) - valor;
       $scope.menorTrocoComMenosValores = _.sum(valores) - valor;
@@ -88,19 +91,22 @@ angular.module('combinaValores')
             tmpValoresCombinados.push(valores[c]);
           }
         }
-        tmpSoma = _.sum(tmpValoresCombinados);
         if (tmpSoma <= valor ){
-          if ((valor - tmpSoma) <= $scope.menorDiferenca) {
-            $scope.menorDiferenca = valor - tmpSoma;
+          tmpSoma = _.sum(tmpValoresCombinados);
+          tmpDiferenca = valor - tmpSoma;
+          if (tmpDiferenca <= $scope.menorDiferenca) {
+            $scope.menorDiferenca = tmpDiferenca;
             $scope.combinacaoMenorDiferenca = [].concat(tmpValoresCombinados);
-            if (tmpValoresCombinados.length < $scope.combinacaoMenorDiferenca.length ) {
-              $scope.menorDiferencaComMenosValores = valor - tmpSoma;
-              $scope.combinacaoMenorDiferencaMenosValores = [].concat(tmpValoresCombinados);
-            }
-            if (tmpValoresCombinados.length > $scope.combinacaoMenorDiferencaMaisValores.length) {
-              $scope.menorDiferencaComMaisValores = valor - tmpSoma;
-              $scope.combinacaoMenorDiferencaMaisValores = [].concat(tmpValoresCombinados);
-            }
+          }
+          if (tmpValoresCombinados.length < $scope.combinacaoMenorDiferenca.length && 
+            tmpDiferenca < $scope.menorDiferencaComMenosValores ) {
+            $scope.menorDiferencaComMenosValores = tmpDiferenca;
+            $scope.combinacaoMenorDiferencaMenosValores = [].concat(tmpValoresCombinados);
+          }
+          if (tmpValoresCombinados.length > $scope.combinacaoMenorDiferencaMaisValores.length &&
+            tmpDiferenca < $scope.menorDiferencaComMaisValores ) {
+            $scope.menorDiferencaComMaisValores = tmpDiferenca;
+            $scope.combinacaoMenorDiferencaMaisValores = [].concat(tmpValoresCombinados);
           }
         } else {
           if ((tmpSoma - valor) < $scope.menorTroco) {
