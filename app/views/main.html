@@ -19,13 +19,15 @@
             <input 
               type="number" 
               id="novo-valor"
+              on-enter="addValor()"
               ng-model="model.valor"
               class="form-control">
             <span class="input-group-btn">
               <button 
                 ng-click="addValor()"
                 class="btn btn-success">
-                Incluir
+                <span class="fa fa-plus"></span>
+                <span class="hidden-xs hidden-sm">Incluir</span>
               </button>
             </span>
           </div>
@@ -66,6 +68,7 @@
                       ui-hide-group-sep
                       type="text" 
                       class="form-control" 
+                      ng-disabled="running || valores.length < 2"
                       ng-model="valor">
                     <span class="input-group-btn">
                       <button 
@@ -92,33 +95,10 @@
                   class="alert alert-success text-center" style="margin: 6px 0 0;">
                   Clique em <a ng-click="execute()">executar</a>, para obter as melhores combinações de valores.
                 </div>
-                <strong ng-show="menorTroco || menorDiferenca"><span class="fa fa-trophy"></span> Melhor opção</strong>
-                <div ng-show="menorTroco < menorDiferenca">
-                  <strong>Menor troco: </strong> {{ ( menorTroco || 0 ) | currency:"R$ " }}
-                  <div>
-                    <strong>Valores: </strong>
-                    <span 
-                      ng-repeat="valor in combinacaoMenorTroco track by $index">
-                      <span ng-if="$index > 0" style="margin-left: 4px">+</span>
-                      <span class="label label-primary">
-                        {{ valor | currency:"R$ " }}
-                      </span>
-                    </span>
-                  </div>
-                  <hr>
-                </div>
-                <div ng-show="menorDiferenca < menorTroco">
-                  <strong>Menor diferença: </strong> {{ ( menorDiferenca || 0 ) | currency:"R$ " }}
-                  <div>
-                    <strong>Valores: </strong>
-                    <span 
-                      ng-repeat="valor in combinacaoMenorDiferenca track by $index">
-                      <span ng-if="$index > 0" style="margin-left: 4px">+</span>
-                      <span class="label label-primary">
-                        {{ valor | currency:"R$ " }}
-                      </span>
-                    </span>
-                  </div>
+                <div 
+                  ng-show="menorTroco || menorDiferenca"
+                  class="alert alert-info text-center" style="margin: 17px 0 0;">
+                  Calculadas {{ $scope.cp }} combinações possíveis.
                 </div>
               </div>
             </div>
@@ -136,7 +116,12 @@
           </div>
           <div class="panel-body">
             <div ng-show="combinacaoMenorTroco.length > 0">
-              <strong>Menor troco: </strong> {{ ( menorTroco || 0 ) | currency:"R$ " }}
+              <strong>
+                <span 
+                  ng-show="menorTroco && menorTroco <= menorDiferenca"
+                  class="fa fa-trophy text-success"></span>
+                Menor troco: 
+              </strong> {{ ( menorTroco || 0 ) | currency:"R$ " }}
               <div>
                 <strong>Valores: </strong>
                 <span 
@@ -188,7 +173,11 @@
           </div>
           <div class="panel-body">
             <div ng-show="combinacaoMenorDiferenca.length > 0">
-              <strong>Menor diferença: </strong> {{ ( menorDiferenca || 0 ) | currency:"R$ " }}
+              <strong>
+                <span 
+                  ng-show="menorDiferenca && menorDiferenca <= menorTroco"
+                  class="fa fa-trophy text-success"></span>
+                Menor diferença: </strong> {{ ( menorDiferenca || 0 ) | currency:"R$ " }}
               <div>
                 <strong>Valores: </strong>
                 <span 

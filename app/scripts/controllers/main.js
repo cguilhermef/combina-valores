@@ -60,6 +60,9 @@ angular.module('combinaValores')
     };
 
     $scope.execute = function() {
+      if ($scope.running) {
+        return;
+      }
       $scope.running = true;
       $scope.clearResults();
       var valores = $scope.valores;
