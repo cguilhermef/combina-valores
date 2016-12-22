@@ -16,6 +16,12 @@ angular.module('combinaValores')
         cheque: null
       };
       $scope.clearResults();
+      $('#novo-valor').on('keypress', function(e) {
+        if (e.keyCode === 13) {
+          e.stopPropagation();
+          $scope.addValor();
+        }
+      });
     };
 
     $scope.removeAllValores = function() {
@@ -26,26 +32,28 @@ angular.module('combinaValores')
     };
 
     $scope.clearResults = function() {
-      $scope.menorTroco = _.sum($scope.valores) - $scope.valor;
-      $scope.menorTrocoComMaisValores = _.sum($scope.valores) - $scope.valor;
-      $scope.menorTrocoComMenosValores = _.sum($scope.valores) - $scope.valor;
+      $scope.menorTroco = null;
+      $scope.menorTrocoComMaisValores = null;
+      $scope.menorTrocoComMenosValores = null;
 
-      $scope.menorDiferenca = $scope.valor;
-      $scope.menorDiferencaMaisValores = $scope.valor;
-      $scope.menorDiferencaMenosValores = $scope.valor;
+      $scope.menorDiferenca = null;
+      $scope.menorDiferencaMaisValores = null;
+      $scope.menorDiferencaMenosValores = null;
 
-      $scope.combinacaoMenorTroco = [];
-      $scope.combinacaoMenorTrocoMaisValores = [];
-      $scope.combinacaoMenorTrocoMenosValores = [];
-      $scope.combinacaoMenorDiferenca = [];
-      $scope.combinacaoMenorDiferencaMaisValores = [];
-      $scope.combinacaoMenorDiferencaMenosValores = [];
+      $scope.combinacaoMenorTroco = null;
+      $scope.combinacaoMenorTrocoMaisValores = null;
+      $scope.combinacaoMenorTrocoMenosValores = null;
+      $scope.combinacaoMenorDiferenca = null;
+      $scope.combinacaoMenorDiferencaMaisValores = null;
+      $scope.combinacaoMenorDiferencaMenosValores = null;
     };
 
     $scope.addValor = function() {
-      $scope.valores.push(Number($scope.model.valor));
-      $scope.model.valor = null;
-      $('#novo-valor').focus();
+      if ($scope.model.valor >= 0) {
+        $scope.valores.push(Number($scope.model.valor));
+        $scope.model.valor = null;
+        // $('#novo-valor').focus();
+      }
     };
     $scope.removeValor = function($index) {
       $scope.valores = _.without($scope.valores, $scope.valores[$index]);
@@ -91,8 +99,8 @@ angular.module('combinaValores')
             tmpValoresCombinados.push(valores[c]);
           }
         }
+        tmpSoma = _.sum(tmpValoresCombinados);
         if (tmpSoma <= valor ){
-          tmpSoma = _.sum(tmpValoresCombinados);
           tmpDiferenca = valor - tmpSoma;
           if (tmpDiferenca <= $scope.menorDiferenca) {
             $scope.menorDiferenca = tmpDiferenca;
