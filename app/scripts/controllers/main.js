@@ -8,8 +8,11 @@
  * Controller of the combinaValores
  */
 angular.module('combinaValores')
-  .controller('MainCtrl', function ($scope) {
+  .controller('MainCtrl', function ($scope, $rootScope) {
     $scope.init = function() {
+      $scope.showOutputJSON = false;
+      $scope.showInputJSON = false;
+      $scope.jsonInputError = false;
       $scope.running = false;
       $scope.valores = [];
       $scope.model = {
@@ -22,6 +25,26 @@ angular.module('combinaValores')
           $scope.addValor();
         }
       });
+    };
+    $scope.toggleInputJSON = function() {
+      $scope.showInputJSON = !$scope.showInputJSON;
+    };
+    $scope.loadJSON = function() {
+      var tmp = {};
+      $scope.jsonInputError = false;
+      try {
+        tmp = JSON.parse($scope.inputJSON);
+      } catch(error) {
+        console.warn('JSON inválido!');
+        $scope.jsonInputError = 'Formato inválido de JSON.'
+        return;
+      }
+      if (tmp.valores) { $scope.valores = tmp.valores; }
+      if (tmp.valor) { $scope.valor = tmp.valor; }
+      $scope.toggleInputJSON();
+    }
+    $scope.toggleOutputJSON = function() {
+      $scope.showOutputJSON = !$scope.showOutputJSON;
     };
 
     $scope.removeAllValores = function() {
@@ -159,6 +182,18 @@ angular.module('combinaValores')
       if (nV) {
         $scope.clearResults();
         $scope.cp = Math.pow(2, $scope.valores.length);
+        $scope.outputJSON = {
+          valores: $scope.valores,
+          valor: $scope.valor
+        }
       }
     }, true);
+    $scope.$watch('valor', function(nV) {
+      if (nV) {
+        $scope.outputJSON = {
+          valores: $scope.valores,
+          valor: $scope.valor
+        }
+      }
+    });
   });
