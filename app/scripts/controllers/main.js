@@ -121,16 +121,19 @@ angular.module('combinaValores')
           }
         } else {
           if ((tmpSoma - valor) < $scope.menorTroco) {
-            $scope.menorTroco = tmpSoma-valor;
+            tmpTroco = tmpSoma - valor;
+            $scope.menorTroco = tmpTroco;
             $scope.combinacaoMenorTroco = [].concat(tmpValoresCombinados);
-            if (tmpValoresCombinados.length < $scope.combinacaoMenorTrocoMenosValores.length) {
-              $scope.menorTrocoComMenosValores = tmpSoma-valor;
-              $scope.combinacaoMenorTrocoMenosValores = [].concat(tmpValoresCombinados);
-            }
-            if (tmpValoresCombinados.length > $scope.combinacaoMenorTrocoMaisValores.length) {
-              $scope.menorTrocoComMaisValores = tmpSoma-valor;
-              $scope.combinacaoMenorTrocoMaisValores = [].concat(tmpValoresCombinados);
-            }
+          }
+          if (tmpValoresCombinados.length < $scope.combinacaoMenorTrocoMenosValores.length &&
+            tmpTroco < $scope.menorTrocoComMenosValores) {
+            $scope.menorTrocoComMenosValores = tmpTroco;
+            $scope.combinacaoMenorTrocoMenosValores = [].concat(tmpValoresCombinados);
+          }
+          if (tmpValoresCombinados.length > $scope.combinacaoMenorTrocoMaisValores.length &&
+            tmpTroco < $scope.menorTrocoComMaisValores) {
+            $scope.menorTrocoComMaisValores = tmpSoma-valor;
+            $scope.combinacaoMenorTrocoMaisValores = [].concat(tmpValoresCombinados);
           }
         }
         i++;
