@@ -132,7 +132,7 @@
                   Antes de executar, informe o valor desejado.
                 </div>
                 <div 
-                  ng-show="valores.length >= 2 && valor && (!menorTroco || !menorDiferenca) "
+                  ng-show="valores.length >= 2 && valor && !done"
                   class="alert alert-success text-center" style="margin: 6px 0 0;">
                   Clique em <a ng-click="execute()">executar</a>, para obter as melhores combinações de valores.
                 </div>
@@ -149,7 +149,7 @@
     </div>
     <div class="row">
       <div 
-        ng-show="menorTroco"
+        ng-show="done"
         class="col-xs-12 col-md-6">
         <div class="panel panel-default">
           <div class="panel-heading">
@@ -159,7 +159,7 @@
             <div ng-show="combinacaoMenorTroco.length > 0">
               <strong>
                 <span 
-                  ng-show="menorTroco && menorTroco <= menorDiferenca"
+                  ng-show="menorTroco <= menorDiferenca"
                   class="fa fa-trophy text-success"></span>
                 Menor troco: 
               </strong> {{ ( menorTroco || 0 ) | currency:"R$ " }}
@@ -206,7 +206,7 @@
         </div>
       </div>
       <div 
-        ng-show="menorDiferenca"
+        ng-show="done"
         class="col-xs-12 col-md-6">
         <div class="panel panel-default">
           <div class="panel-heading">
@@ -216,7 +216,7 @@
             <div ng-show="combinacaoMenorDiferenca.length > 0">
               <strong>
                 <span 
-                  ng-show="menorDiferenca && menorDiferenca <= menorTroco"
+                  ng-show="menorDiferenca <= menorTroco"
                   class="fa fa-trophy text-success"></span>
                 Menor diferença: </strong> {{ ( menorDiferenca || 0 ) | currency:"R$ " }}
               <div>

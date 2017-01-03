@@ -14,6 +14,7 @@ angular.module('combinaValores')
       $scope.showInputJSON = false;
       $scope.jsonInputError = false;
       $scope.running = false;
+      $scope.done = false;
       $scope.valores = [];
       $scope.model = {
         cheque: null
@@ -55,6 +56,7 @@ angular.module('combinaValores')
     };
 
     $scope.clearResults = function() {
+      $scope.done = false;
       $scope.menorTroco = null;
       $scope.menorTrocoComMaisValores = null;
       $scope.menorTrocoComMenosValores = null;
@@ -96,6 +98,9 @@ angular.module('combinaValores')
       var i = 1;
       var c = 0;
       var valor = $scope.valor;
+      var maxTroco = $scope.valor / 2;
+      var maxDiferenca = $scope.valor / 2;
+
       var tmpSoma = 0;
       var tmpDiferenca = 0;
       var tmpTroco = 0;
@@ -126,37 +131,48 @@ angular.module('combinaValores')
           }
         }
         tmpSoma = _.sum(tmpValoresCombinados);
-        if (tmpSoma <= valor ){
-          tmpDiferenca = valor - tmpSoma;
-          if (tmpDiferenca <= $scope.menorDiferenca) {
-            $scope.menorDiferenca = tmpDiferenca;
-            $scope.combinacaoMenorDiferenca = [].concat(tmpValoresCombinados);
-          }
-          if (tmpValoresCombinados.length < $scope.combinacaoMenorDiferenca.length && 
-            tmpDiferenca < $scope.menorDiferencaComMenosValores ) {
-            $scope.menorDiferencaComMenosValores = tmpDiferenca;
-            $scope.combinacaoMenorDiferencaMenosValores = [].concat(tmpValoresCombinados);
-          }
-          if (tmpValoresCombinados.length > $scope.combinacaoMenorDiferencaMaisValores.length &&
-            tmpDiferenca < $scope.menorDiferencaComMaisValores ) {
-            $scope.menorDiferencaComMaisValores = tmpDiferenca;
-            $scope.combinacaoMenorDiferencaMaisValores = [].concat(tmpValoresCombinados);
-          }
+        if (tmpSoma === valor) {
+          $scope.menorDiferenca = 0;
+          $scope.combinacaoMenorDiferenca = [].concat(tmpValoresCombinados);
+          $scope.menorTroco = 0;
+          $scope.combinacaoMenorTroco = [].concat(tmpValoresCombinados);
         } else {
-          if ((tmpSoma - valor) < $scope.menorTroco) {
-            tmpTroco = tmpSoma - valor;
-            $scope.menorTroco = tmpTroco;
-            $scope.combinacaoMenorTroco = [].concat(tmpValoresCombinados);
-          }
-          if (tmpValoresCombinados.length < $scope.combinacaoMenorTrocoMenosValores.length &&
-            tmpTroco < $scope.menorTrocoComMenosValores) {
-            $scope.menorTrocoComMenosValores = tmpTroco;
-            $scope.combinacaoMenorTrocoMenosValores = [].concat(tmpValoresCombinados);
-          }
-          if (tmpValoresCombinados.length > $scope.combinacaoMenorTrocoMaisValores.length &&
-            tmpTroco < $scope.menorTrocoComMaisValores) {
-            $scope.menorTrocoComMaisValores = tmpSoma-valor;
-            $scope.combinacaoMenorTrocoMaisValores = [].concat(tmpValoresCombinados);
+          if (tmpSoma < valor ){
+            tmpDiferenca = valor - tmpSoma;
+            if (tmpDiferenca <= $scope.menorDiferenca) {
+              $scope.menorDiferenca = tmpDiferenca;
+              $scope.combinacaoMenorDiferenca = [].concat(tmpValoresCombinados);
+            }
+            if (tmpValoresCombinados.length < $scope.combinacaoMenorDiferenca.length && 
+              tmpDiferenca < $scope.menorDiferencaComMenosValores &&
+              tmpDiferenca <= maxDiferenca) {
+              $scope.menorDiferencaComMenosValores = tmpDiferenca;
+              $scope.combinacaoMenorDiferencaMenosValores = [].concat(tmpValoresCombinados);
+            }
+            if (tmpValoresCombinados.length > $scope.combinacaoMenorDiferencaMaisValores.length &&
+              tmpDiferenca < $scope.menorDiferencaComMaisValores &&
+              tmpDiferenca <= maxDiferenca) {
+              $scope.menorDiferencaComMaisValores = tmpDiferenca;
+              $scope.combinacaoMenorDiferencaMaisValores = [].concat(tmpValoresCombinados);
+            }
+          } else {
+            if ((tmpSoma - valor) < $scope.menorTroco) {
+              tmpTroco = tmpSoma - valor;
+              $scope.menorTroco = tmpTroco;
+              $scope.combinacaoMenorTroco = [].concat(tmpValoresCombinados);
+            }
+            if (tmpValoresCombinados.length < $scope.combinacaoMenorTrocoMenosValores.length &&
+              tmpTroco < $scope.menorTrocoComMenosValores &&
+              tmpTroco <= maxTroco) {
+              $scope.menorTrocoComMenosValores = tmpTroco;
+              $scope.combinacaoMenorTrocoMenosValores = [].concat(tmpValoresCombinados);
+            }
+            if (tmpValoresCombinados.length > $scope.combinacaoMenorTrocoMaisValores.length &&
+              tmpTroco < $scope.menorTrocoComMaisValores &&
+              tmpTroco <= maxTroco) {
+              $scope.menorTrocoComMaisValores = tmpTroco;
+              $scope.combinacaoMenorTrocoMaisValores = [].concat(tmpValoresCombinados);
+            }
           }
         }
         i++;
@@ -174,6 +190,7 @@ angular.module('combinaValores')
          $scope.combinacaoMenorDiferencaMaisValores = [];
       }
       $scope.running = false;
+      $scope.done = true;
     };
 
     $scope.init();
