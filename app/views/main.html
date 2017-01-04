@@ -9,14 +9,14 @@
               ng-click="toggleInputJSON()" 
               title="Inserir por JSON"
               ng-class="{'btn-primary': showInputJSON, 'btn-info': !showInputJSON}"
-              class="btn btn-info btn-xs">
+              class="btn btn-info btn-xs hidden">
               <span class="fa fa-upload"></span>
             </button>
             <button 
               ng-click="toggleOutputJSON()"
               title="Obter JSON"
               ng-class="{'btn-primary': showOutputJSON, 'btn-info': !showOutputJSON}"
-              class="btn btn-info btn-xs">
+              class="btn btn-info btn-xs hidden">
               <span class="fa fa-download"></span>
             </button>
             <button 
@@ -262,36 +262,5 @@
         </div>
       </div>
     </div>
-    <!--<div 
-      ng-show="importExport">
-      <div class="row">
-        <div class="col-xs-12">
-          <label>
-            Dados atuais
-            <a ng-click="getInputs()">
-              <span class="fa fa-refresh"></span>
-            </a>
-          </label>
-          <pre>{{ jsonExport }}</pre>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-12">
-          <label>Inserir dados</label>
-          <textarea ng-model="jsonImport" class="form-control"></textarea>
-          <em 
-            ng-show="jsonImportError"
-            class="text-danger">{{ jsonImportError }}</em>
-          <br>
-          <button 
-            ng-disabled="jsonImport.length === 0"
-            ng-click="setInputs()"
-            class="btn btn-sm btn-primary">
-            <span class="fa fa-check"></span>
-            Carregar
-          </button>
-        </div>
-      </div>
-    </div>-->
   </div>
 </div>
