@@ -1,4 +1,6 @@
 'use strict';
+import angular from 'angular';
+import * as _ from 'lodash';
 
 /**
  * @ngdoc function

@@ -4,6 +4,12 @@
   "private": true,
   "devDependencies": {
     "autoprefixer-core": "^5.2.1",
+    "babel-preset-es2015": "^6.3.13",
+    "babelify": "^7.2.0",
+    "browser-sync": "^2.11.1",
+    "browserify": "^13.0.0",
+    "browserify-ngannotate": "^2.0.0",
+    "graceful-fs": "^4.2.11",
     "grunt": "^0.4.5",
     "grunt-angular-templates": "^0.5.7",
     "grunt-concurrent": "^1.0.0",
@@ -28,6 +34,12 @@
     "grunt-svgmin": "^2.0.0",
     "grunt-usemin": "^3.0.0",
     "grunt-wiredep": "^2.0.0",
+    "gulp": "^3.9.1",
+    "gulp-angular-templatecache": "^1.8.0",
+    "gulp-notify": "^2.2.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^1.5.3",
+    "gulp-util": "^3.0.7",
     "jasmine-core": "^2.5.2",
     "jit-grunt": "^0.9.1",
     "jshint-stylish": "^1.0.0",
@@ -35,16 +47,24 @@
     "karma-jasmine": "^1.1.0",
     "karma-phantomjs-launcher": "^1.0.2",
     "lodash": "^4.17.2",
+    "marked": "^0.3.5",
+    "merge-stream": "^1.0.0",
     "phantomjs-prebuilt": "^2.1.14",
-    "time-grunt": "^1.0.0"
+    "time-grunt": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0"
+  },
+  "overrides": {
+    "graceful-fs": "^4.2.11"
+  },
+  "resolutions": {
+    "graceful-fs": "^4.2.11"
   },
   "engines": {
     "node": ">=0.10.0",
     "yarn": ">= 1.0.0"
   },
   "scripts": {
-    "test": "karma start test\\karma.conf.js",
-    "postinstall": "node -e \"try { require('fs').symlinkSync(require('path').resolve('node_modules/@bower_components'), 'bower_components', 'junction') } catch (e) { }\""
+    "test": "karma start test\\karma.conf.js"
   },
   "dependencies": {
     "express": "^4.14.0"
