@@ -30,7 +30,11 @@ var interceptErrors = function(error) {
 
 
 gulp.task('browserify', ['views'], function() {
-  return browserify('./app/scripts/app.js')
+  return browserify([
+    './src/scripts/app.js',
+    './src/scripts/controllers/main.js',
+    './src/scripts/directives/on-enter.js'
+  ])
       .transform(babelify, {presets: ["es2015"]})
       .transform(ngAnnotate)
       .bundle()
@@ -42,7 +46,10 @@ gulp.task('browserify', ['views'], function() {
 });
 
 gulp.task('html', function() {
-  return gulp.src("app/index.html")
+  return gulp.src([
+    "src/index.html",
+    "src/views/main.html"
+  ])
       .on('error', interceptErrors)
       .pipe(gulp.dest('./build/'));
 });
@@ -60,7 +67,10 @@ gulp.task('views', function() {
 // This task is used for building production ready
 // minified JS/CSS files into the dist/ folder
 gulp.task('build', ['html', 'browserify'], function() {
-  var html = gulp.src("build/index.html")
+  var html = gulp.src([
+    "build/index.html",
+    "build/main.html"
+  ])
                  .pipe(gulp.dest('./dist/'));
 
   var js = gulp.src("build/main.js")
@@ -81,7 +91,7 @@ gulp.task('default', ['html', 'browserify'], function() {
     }
   });
 
-  gulp.watch("app /index.html", ['html']);
+  gulp.watch("src/index.html", ['html']);
   gulp.watch(viewFiles, ['views']);
   gulp.watch(jsFiles, ['browserify']);
 });

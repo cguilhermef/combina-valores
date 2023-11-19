@@ -1,5 +1,3 @@
-import angular from 'angular';
-
 /**
  * @ngdoc overview
  * @name combinaValores
@@ -21,7 +19,7 @@ angular
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
-        templateUrl: 'views/main.html',
+        templateUrl: 'main.html',
         controller: 'MainCtrl',
         controllerAs: 'main'
       })
