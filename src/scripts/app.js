@@ -1,3 +1,15 @@
+import angular from "angular";
+import angularTouch from "angular-touch";
+import angularInputMasks from "angular-input-masks";
+import jquery from "jquery";
+import * as angularResource from "angular-resource"
+import * as angularRoute from 'angular-route';
+import * as angularSanitize from 'angular-sanitize';
+import * as _ from 'lodash';
+
+window.$ = jquery;
+window._ = _;
+
 /**
  * @ngdoc overview
  * @name combinaValores
@@ -8,8 +20,6 @@
  */
 angular
   .module('combinaValores', [
-    'ngAnimate',
-    'ngCookies',
     'ngResource',
     'ngRoute',
     'ngSanitize',
