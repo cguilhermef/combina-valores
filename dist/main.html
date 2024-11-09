@@ -6,49 +6,44 @@
           Lista de valores
           <span class="pull-right">
             <button
-              ng-click="toggleInputJSON()" 
+              ng-click="toggleInputJSON()"
               title="Inserir por JSON"
               ng-class="{'btn-primary': showInputJSON, 'btn-info': !showInputJSON}"
-              class="btn btn-info btn-xs hidden">
+              class="btn btn-info btn-xs hidden"
+            >
               <span class="fa fa-upload"></span>
             </button>
-            <button 
+            <button
               ng-click="toggleOutputJSON()"
               title="Obter JSON"
               ng-class="{'btn-primary': showOutputJSON, 'btn-info': !showOutputJSON}"
-              class="btn btn-info btn-xs hidden">
+              class="btn btn-info btn-xs hidden"
+            >
               <span class="fa fa-download"></span>
             </button>
-            <button 
+            <button
               title="remover todos os valores"
               ng-show="valores.length > 1"
               ng-click="removeAllValores()"
-              class="btn btn-warning btn-xs">
+              class="btn btn-warning btn-xs"
+            >
               <span class="fa fa-trash-o"></span>
             </button>
           </span>
         </h4>
       </li>
-      <li 
-        ng-show="showOutputJSON"
-        class="list-group-item">
+      <li ng-show="showOutputJSON" class="list-group-item">
         <pre>{{ outputJSON }}</pre>
       </li>
-      <li 
-        ng-show="showInputJSON"
-        class="list-group-item">
-        <div class="form-group" style="margin-bottom:0;">
+      <li ng-show="showInputJSON" class="list-group-item">
+        <div class="form-group" style="margin-bottom: 0">
           <label>Cole o <em>JSON</em> aqui</label>
-          <textarea
-            ng-model="inputJSON"
-            class="form-control"></textarea>
-          <em
-            ng-show="jsonInputError" 
-            class="text-danger">{{ jsonInputError }}</em>
-          <br>
-          <button 
-            ng-click="loadJSON()"
-            class="btn btn-primary btn-sm">
+          <textarea ng-model="inputJSON" class="form-control"></textarea>
+          <em ng-show="jsonInputError" class="text-danger"
+            >{{ jsonInputError }}</em
+          >
+          <br />
+          <button ng-click="loadJSON()" class="btn btn-primary btn-sm">
             <span class="fa fa-check"></span>
             Carregar
           </button>
@@ -57,16 +52,15 @@
       <li class="list-group-item">
         <div class="form-group" style="margin-bottom: 0">
           <div class="input-group">
-            <input 
-              type="number" 
+            <input
+              type="number"
               id="novo-valor"
               on-enter="addValor()"
               ng-model="model.valor"
-              class="form-control">
+              class="form-control"
+            />
             <span class="input-group-btn">
-              <button 
-                ng-click="addValor()"
-                class="btn btn-success">
+              <button ng-click="addValor()" class="btn btn-success">
                 <span class="fa fa-plus"></span>
                 <span class="hidden-xs hidden-sm">Incluir</span>
               </button>
@@ -74,20 +68,17 @@
           </div>
         </div>
       </li>
-      <li
-        ng-show="valores.length === 0" 
-        class="list-group-item">
+      <li ng-show="valores.length === 0" class="list-group-item">
         <div class="alert alert-info text-center" style="margin-bottom: 0">
           Para começar, informe dois ou mais valores.
         </div>
       </li>
-      <li 
-        ng-repeat="valor in valores track by $index"
-        class="list-group-item">
-        {{ valor | currency:"R$ "}} 
-        <button 
+      <li ng-repeat="valor in valores track by $index" class="list-group-item">
+        {{ valor | currency:"R$ "}}
+        <button
           ng-click="removeValor($index)"
-          class="btn btn-danger btn-xs pull-right">
+          class="btn btn-danger btn-xs pull-right"
+        >
           <span class="fa fa-remove fa-xs"></span>
         </button>
       </li>
@@ -101,44 +92,56 @@
             <div class="row">
               <div class="col-xs-12 col-md-6">
                 <div class="form-group">
-                  <label for="" class="form-control-label">Valor a ser pago:</label>
+                  <label for="" class="form-control-label"
+                    >Valor a ser pago:</label
+                  >
                   <div class="input-group">
                     <span class="input-group-addon">R$</span>
-                    <input 
+                    <input
                       ui-number-mask
                       ui-hide-group-sep
-                      type="text" 
-                      class="form-control" 
+                      type="text"
+                      class="form-control"
                       ng-disabled="running || valores.length < 2"
-                      ng-model="valor">
+                      ng-model="valor"
+                    />
                     <span class="input-group-btn">
-                      <button 
+                      <button
                         ng-click="execute()"
                         ng-disabled="running || !valor || valores.length < 2"
-                        class="btn btn-primary">
-                        <span 
+                        class="btn btn-primary"
+                      >
+                        <span
                           ng-class="{'fa-spin': running}"
-                          class="fa fa-refresh"></span> 
-                          <span class="hidden-xs hidden-sm">Executar</span>
+                          class="fa fa-refresh"
+                        ></span>
+                        <span class="hidden-xs hidden-sm">Executar</span>
                       </button>
                     </span>
                   </div>
                 </div>
               </div>
               <div class="col-xs-12 col-md-6">
-                <div 
+                <div
                   ng-show="valores.length >= 2 && !valor"
-                  class="alert alert-info text-center" style="margin: 17px 0 0;">
+                  class="alert alert-info text-center"
+                  style="margin: 17px 0 0"
+                >
                   Antes de executar, informe o valor desejado.
                 </div>
-                <div 
+                <div
                   ng-show="valores.length >= 2 && valor && !done"
-                  class="alert alert-success text-center" style="margin: 6px 0 0;">
-                  Clique em <a ng-click="execute()">executar</a>, para obter as melhores combinações de valores.
+                  class="alert alert-success text-center"
+                  style="margin: 6px 0 0"
+                >
+                  Clique em <a ng-click="execute()">executar</a>, para obter as
+                  melhores combinações de valores.
                 </div>
-                <div 
+                <div
                   ng-show="menorTroco || menorDiferenca"
-                  class="alert alert-info text-center" style="margin: 17px 0 0;">
+                  class="alert alert-info text-center"
+                  style="margin: 17px 0 0"
+                >
                   Calculadas {{ cp }} combinações possíveis.
                 </div>
               </div>
@@ -148,9 +151,7 @@
       </div>
     </div>
     <div class="row">
-      <div 
-        ng-show="done"
-        class="col-xs-12 col-md-6">
+      <div ng-show="done" class="col-xs-12 col-md-6">
         <div class="panel panel-default">
           <div class="panel-heading">
             <h3 class="panel-title">Menor troco</h3>
@@ -158,15 +159,16 @@
           <div class="panel-body">
             <div ng-show="combinacaoMenorTroco.length > 0">
               <strong>
-                <span 
+                <span
                   ng-show="menorTroco <= menorDiferenca"
-                  class="fa fa-trophy text-success"></span>
-                Menor troco: 
-              </strong> {{ ( menorTroco || 0 ) | currency:"R$ " }}
+                  class="fa fa-trophy text-success"
+                ></span>
+                Menor troco:
+              </strong>
+              {{ ( menorTroco || 0 ) | currency:"R$ " }}
               <div>
                 <strong>Valores: </strong>
-                <span 
-                  ng-repeat="valor in combinacaoMenorTroco track by $index">
+                <span ng-repeat="valor in combinacaoMenorTroco track by $index">
                   <span ng-if="$index > 0" style="margin-left: 4px">+</span>
                   <span class="label label-primary">
                     {{ valor | currency:"R$ " }}
@@ -174,13 +176,15 @@
                 </span>
               </div>
             </div>
-            <!--<div ng-show="combinacaoMenorTrocoMaisValores.length > 0">
-              <hr>              
-              <strong>Menor troco, com mais valores:</strong> {{ ( menorTrocoComMaisValores || 0 ) | currency:"R$ " }}
+            <div ng-show="combinacaoMenorTrocoMaisValores.length > 0">
+              <hr />
+              <strong>Menor troco, com mais valores:</strong> {{ (
+              menorTrocoComMaisValores || 0 ) | currency:"R$ " }}
               <div>
                 <strong>Valores: </strong>
-                <span 
-                  ng-repeat="valor in combinacaoMenorTrocoMaisValores track by $index">
+                <span
+                  ng-repeat="valor in combinacaoMenorTrocoMaisValores track by $index"
+                >
                   <span ng-if="$index > 0" style="margin-left: 4px">+</span>
                   <span class="label label-primary">
                     {{ valor | currency:"R$ " }}
@@ -189,40 +193,14 @@
               </div>
             </div>
             <div ng-show="combinacaoMenorTrocoMenosValores.length > 0">
-              <hr>
-              <strong>Menor troco, menos valores: </strong> {{ ( menorTrocoComMenosValores || 0 ) | currency:"R$ " }}
+              <hr />
+              <strong>Menor troco, menos valores: </strong> {{ (
+              menorTrocoComMenosValores || 0 ) | currency:"R$ " }}
               <div>
                 <strong>Valores: </strong>
-                <span 
-                  ng-repeat="valor in combinacaoMenorTrocoMenosValores track by $index">
-                  <span ng-if="$index > 0" style="margin-left: 4px">+</span>
-                  <span class="label label-primary">
-                    {{ valor | currency:"R$ " }}
-                  </span>
-                </span>
-              </div>
-            </div>-->
-          </div>
-        </div>
-      </div>
-      <div 
-        ng-show="done"
-        class="col-xs-12 col-md-6">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">Menor diferença</h3>
-          </div>
-          <div class="panel-body">
-            <div ng-show="combinacaoMenorDiferenca.length > 0">
-              <strong>
-                <span 
-                  ng-show="menorDiferenca <= menorTroco"
-                  class="fa fa-trophy text-success"></span>
-                Menor diferença: </strong> {{ ( menorDiferenca || 0 ) | currency:"R$ " }}
-              <div>
-                <strong>Valores: </strong>
-                <span 
-                  ng-repeat="valor in combinacaoMenorDiferenca track by $index">
+                <span
+                  ng-repeat="valor in combinacaoMenorTrocoMenosValores track by $index"
+                >
                   <span ng-if="$index > 0" style="margin-left: 4px">+</span>
                   <span class="label label-primary">
                     {{ valor | currency:"R$ " }}
@@ -230,13 +208,45 @@
                 </span>
               </div>
             </div>
-            <!--<div ng-show="combinacaoMenorDiferencaMaisValores.length > 0">
-              <hr>              
-              <strong>Menor diferença, com mais valores:</strong> {{ ( menorDiferencaComMaisValores || 0 ) | currency:"R$ " }}
+          </div>
+        </div>
+      </div>
+      <div ng-show="done" class="col-xs-12 col-md-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Menor diferença</h3>
+          </div>
+          <div class="panel-body">
+            <div ng-show="combinacaoMenorDiferenca.length > 0">
+              <strong>
+                <span
+                  ng-show="menorDiferenca <= menorTroco"
+                  class="fa fa-trophy text-success"
+                ></span>
+                Menor diferença:
+              </strong>
+              {{ ( menorDiferenca || 0 ) | currency:"R$ " }}
               <div>
                 <strong>Valores: </strong>
-                <span 
-                  ng-repeat="valor in combinacaoMenorDiferencaMaisValores track by $index">
+                <span
+                  ng-repeat="valor in combinacaoMenorDiferenca track by $index"
+                >
+                  <span ng-if="$index > 0" style="margin-left: 4px">+</span>
+                  <span class="label label-primary">
+                    {{ valor | currency:"R$ " }}
+                  </span>
+                </span>
+              </div>
+            </div>
+            <div ng-show="combinacaoMenorDiferencaMaisValores.length > 0">
+              <hr />
+              <strong>Menor diferença, com mais valores:</strong> {{ (
+              menorDiferencaComMaisValores || 0 ) | currency:"R$ " }}
+              <div>
+                <strong>Valores: </strong>
+                <span
+                  ng-repeat="valor in combinacaoMenorDiferencaMaisValores track by $index"
+                >
                   <span ng-if="$index > 0" style="margin-left: 4px">+</span>
                   <span class="label label-primary">
                     {{ valor | currency:"R$ " }}
@@ -245,19 +255,21 @@
               </div>
             </div>
             <div ng-show="combinacaoMenorDiferencaMenosValores.length > 0">
-              <hr>
-              <strong>Menor diferença, menos valores: </strong> {{ ( menorDiferencaComMenosValores || 0 ) | currency:"R$ " }}
+              <hr />
+              <strong>Menor diferença, menos valores: </strong> {{ (
+              menorDiferencaComMenosValores || 0 ) | currency:"R$ " }}
               <div>
                 <strong>Valores: </strong>
-                <span 
-                  ng-repeat="valor in combinacaoMenorDiferencaMenosValores track by $index">
+                <span
+                  ng-repeat="valor in combinacaoMenorDiferencaMenosValores track by $index"
+                >
                   <span ng-if="$index > 0" style="margin-left: 4px">+</span>
                   <span class="label label-primary">
                     {{ valor | currency:"R$ " }}
                   </span>
                 </span>
               </div>
-            </div>-->
+            </div>
           </div>
         </div>
       </div>
